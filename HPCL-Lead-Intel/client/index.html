@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HPCL Lead Intelligence</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons (Phosphor Icons for clean look) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        hpcl: {
+                            red: '#D71920',
+                            blue: '#0F2C67',
+                            light: '#F3F4F6'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        /* Smooth transitions for screens */
+        .screen {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .screen.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .confidence-bar-bg {
+            background: linear-gradient(90deg, #ef4444 0%, #eab308 50%, #22c55e 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex justify-center items-start">
+
+    <!-- Mobile Container -->
+    <div class="w-full max-w-[400px] bg-white min-h-screen shadow-2xl relative overflow-hidden flex flex-col">
+        
+        <!-- ==================== SCREEN 1: DASHBOARD ==================== -->
+        <div id="screen-dashboard" class="screen active h-full flex flex-col">
+            <!-- Header -->
+            <div class="bg-hpcl-blue text-white p-6 pb-12 rounded-b-[2rem] shadow-lg relative z-10">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h1 class="text-xl font-bold">HPCL Lead Intel</h1>
+                        <p class="text-blue-200 text-sm">B2B Sales Assistant</p>
+                    </div>
+                    <div class="bg-white/10 p-2 rounded-full">
+                        <i class="ph ph-user text-xl"></i>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <p class="text-xs text-blue-300 uppercase tracking-wider font-semibold">Sales Officer</p>
+                    <h2 class="text-2xl font-bold">Rajesh Kumar</h2>
+                    <p class="text-sm text-blue-100 flex items-center gap-1 mt-1">
+                        <i class="ph ph-map-pin"></i> Mumbai Industrial Zone
+                    </p>
+                </div>
+            </div>
+
+            <!-- Stats / Body -->
+            <div class="px-6 -mt-8 relative z-20 flex-1 flex flex-col">
+                <div class="bg-white p-4 rounded-xl shadow-md border border-gray-100 mb-6 flex justify-between items-center">
+                    <div>
+                        <p class="text-gray-500 text-xs font-semibold uppercase">Pending Leads</p>
+                        <p class="text-3xl font-bold text-hpcl-red">5</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-500 text-xs font-semibold uppercase">Converted</p>
+                        <p class="text-3xl font-bold text-green-600">12</p>
+                    </div>
+                    <div class="h-10 w-px bg-gray-200"></div>
+                    <div>
+                        <p class="text-gray-500 text-xs font-semibold uppercase">Target</p>
+                        <p class="text-3xl font-bold text-gray-800">85%</p>
+                    </div>
+                </div>
+
+                <div class="flex-1 flex flex-col justify-center items-center text-center space-y-6">
+                    <div class="w-32 h-32 bg-blue-50 rounded-full flex items-center justify-center relative">
+                        <div class="absolute inset-0 border-4 border-blue-100 rounded-full animate-ping opacity-25"></div>
+                        <i class="ph ph-radar text-4xl text-hpcl-blue"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-800">New Signals Detected</h3>
+                        <p class="text-gray-500 text-sm mt-2 max-w-[250px]">
+                            AI has identified 3 high-value opportunities in your territory today.
+                        </p>
+                    </div>
+                </div>
+
+                <button onclick="navigateTo('screen-leads')" class="w-full bg-hpcl-red text-white font-bold py-4 rounded-xl shadow-lg shadow-red-200 active:scale-95 transition-transform flex items-center justify-center gap-2 mb-8">
+                    View New Leads <i class="ph ph-arrow-right font-bold"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- ==================== SCREEN 2: NEW LEADS LIST ==================== -->
+        <div id="screen-leads" class="screen h-full bg-gray-50 flex flex-col">
+            <!-- Header -->
+            <div class="bg-white p-4 shadow-sm sticky top-0 z-30 flex items-center justify-between">
+                <button onclick="navigateTo('screen-dashboard')" class="p-2 -ml-2 text-gray-600 hover:bg-gray-100 rounded-full">
+                    <i class="ph ph-arrow-left text-xl"></i>
+                </button>
+                <h2 class="text-lg font-bold text-gray-800">New Leads (3)</h2>
+                <div class="w-8"></div> <!-- Spacer -->
+            </div>
+
+            <!-- List -->
+            <div id="leads-container" class="p-4 space-y-4 overflow-y-auto pb-20">
+                <!-- Leads will be injected here via JS -->
+            </div>
+        </div>
+
+        <!-- ==================== SCREEN 3: LEAD DOSSIER ==================== -->
+        <div id="screen-dossier" class="screen h-full bg-white flex flex-col">
+            <!-- Header -->
+            <div class="bg-hpcl-blue text-white p-4 sticky top-0 z-30 flex items-center justify-between shadow-md">
+                <button onclick="navigateTo('screen-leads')" class="p-2 -ml-2 text-white hover:bg-white/10 rounded-full">
+                    <i class="ph ph-arrow-left text-xl"></i>
+                </button>
+                <h2 class="text-lg font-bold">Lead Dossier</h2>
+                <button class="p-2 -mr-2 text-white hover:bg-white/10 rounded-full">
+                    <i class="ph ph-share-network text-xl"></i>
+                </button>
+            </div>
+
+            <div id="dossier-content" class="overflow-y-auto pb-32">
+                <!-- Content injected via JS -->
+            </div>
+
+            <!-- Action Bar (Fixed Bottom) -->
+            <div class="fixed bottom-0 w-full max-w-[400px] bg-white border-t border-gray-200 p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] z-40">
+                <div class="flex gap-3 mb-3">
+                    <button onclick="handleAction('call')" class="flex-1 bg-green-50 text-green-700 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 border border-green-200 active:bg-green-100">
+                        <i class="ph ph-phone-call text-lg"></i> Call
+                    </button>
+                    <button onclick="handleAction('email')" class="flex-1 bg-blue-50 text-blue-700 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 border border-blue-200 active:bg-blue-100">
+                        <i class="ph ph-envelope-simple text-lg"></i> Email
+                    </button>
+                </div>
+                <button onclick="toggleStatusModal()" class="w-full bg-gray-900 text-white py-3 rounded-lg font-semibold active:scale-[0.98] transition-transform">
+                    Update Status
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Low Bandwidth Toggle (Floating) -->
+    <div class="fixed top-4 right-4 z-50 hidden md:block">
+        <label class="inline-flex items-center cursor-pointer bg-white px-3 py-2 rounded-full shadow-lg border">
+            <input type="checkbox" id="bandwidth-toggle" class="sr-only peer" onchange="toggleBandwidthMode()">
+            <div class="relative w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-hpcl-blue"></div>
+            <span class="ms-2 text-xs font-medium text-gray-900">Low Bandwidth</span>
+        </label>
+    </div>
+    
+    <!-- Status Modal Overlay -->
+    <div id="status-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-end justify-center sm:items-center p-4">
+        <div class="bg-white w-full max-w-[400px] rounded-t-2xl sm:rounded-2xl p-6 animate-slide-up">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold">Update Lead Status</h3>
+                <button onclick="toggleStatusModal()" class="text-gray-500 hover:text-gray-800"><i class="ph ph-x text-xl"></i></button>
+            </div>
+            <div class="space-y-3">
+                <button onclick="updateLeadStatus('Accepted')" class="w-full p-4 rounded-xl border-2 border-green-100 bg-green-50 text-green-700 font-bold flex justify-between items-center hover:bg-green-100">
+                    <span>Accepted / Valid</span>
+                    <i class="ph ph-check-circle text-xl"></i>
+                </button>
+                <button onclick="updateLeadStatus('Converted')" class="w-full p-4 rounded-xl border-2 border-blue-100 bg-blue-50 text-blue-700 font-bold flex justify-between items-center hover:bg-blue-100">
+                    <span>Converted to Sale</span>
+                    <i class="ph ph-currency-dollar text-xl"></i>
+                </button>
+                <button onclick="updateLeadStatus('Rejected')" class="w-full p-4 rounded-xl border-2 border-red-100 bg-red-50 text-red-700 font-bold flex justify-between items-center hover:bg-red-100">
+                    <span>Rejected / Not Interested</span>
+                    <i class="ph ph-x-circle text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
